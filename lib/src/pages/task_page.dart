@@ -225,8 +225,7 @@ class _TaskPageState extends State<TaskPage> {
                         child: Icon(Icons.table_rows_rounded,
                             color: Colors.blueGrey),
                       ),
-                      Text(
-                          'Swimlane: ${swimlane.name}'),
+                      Text('Swimlane: ${swimlane.name}'),
                     ]),
 
                     SizedBox(height: 20.0),

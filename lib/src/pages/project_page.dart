@@ -98,7 +98,7 @@ class _ProjectPageState extends State<ProjectPage> {
             }
           }
           if (snapshot.hasData) {
-            userRole = snapshot.data[3];            
+            userRole = snapshot.data[3];
             final List<TaskModel> tasks = snapshot.data[0];
             final List<ColumnModel> columns = snapshot.data[1];
             users = snapshot.data[2];

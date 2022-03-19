@@ -140,7 +140,7 @@ class _KanbanPageState extends State<KanbanPage> {
       onStartDragItem: (int listIndex, int itemIndex, BoardItemState state) {},
       onDropItem: (int listIndex, int itemIndex, int oldListIndex,
           int oldItemIndex, BoardItemState state) async {
-        if(userRole != 'project-viewer'){
+        if (userRole != 'project-viewer') {
           //Used to update our local item data
           var item = _listData[oldListIndex].items[oldItemIndex];
           bool updateResult = await taskProvider.moveTaskPosition({
