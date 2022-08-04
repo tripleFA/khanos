@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gradient_app_bar/gradient_app_bar.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:khanos/src/utils/theme_utils.dart';
 import 'package:khanos/src/utils/widgets_utils.dart';
 
@@ -33,7 +33,7 @@ class _KhanosAppBarState extends State<KhanosAppBar> {
     }
     return PreferredSize(
       preferredSize: Size.fromHeight(60.0),
-      child: GradientAppBar(
+      child: NewGradientAppBar(
         flexibleSpace: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
