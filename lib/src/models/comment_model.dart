@@ -29,10 +29,10 @@ class CommentModel {
   String name;
 
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
-        id: json["id"],
-        taskId: json["task_id"],
-        userId: json["user_id"],
-        dateCreation: json["date_creation"],
+        id: json["id"].toString(),
+        taskId: json["task_id"].toString(),
+        userId: json["user_id"].toString(),
+        dateCreation: json["date_creation"].toString(),
         comment: json["comment"],
         username: json["username"],
         name: json["name"],
