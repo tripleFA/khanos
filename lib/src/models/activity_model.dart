@@ -43,12 +43,12 @@ class ActivityModel {
   String eventContent;
 
   factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
-        id: json["id"],
-        dateCreation: json["date_creation"],
+        id: json["id"].toString(),
+        dateCreation: json["date_creation"].toString(),
         eventName: json["event_name"],
-        creatorId: json["creator_id"],
-        projectId: json["project_id"],
-        taskId: json["task_id"],
+        creatorId: json["creator_id"].toString(),
+        projectId: json["project_id"].toString(),
+        taskId: json["task_id"].toString(),
         authorUsername: json["author_username"],
         authorName: json["author_name"],
         email: json["email"],
