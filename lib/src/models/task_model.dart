@@ -155,7 +155,7 @@ class TaskModel {
         ownerId: json["owner_id"].toString(),
         position: json["position"].toString(),
         isActive: json["is_active"].toString(),
-        dateCompleted: json["date_completed"],
+        dateCompleted: json["date_completed"].toString(),
         score: json["score"].toString(),
         dateDue: json["date_due"].toString(),
         categoryId: json["category_id"].toString(),
