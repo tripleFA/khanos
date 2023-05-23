@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 final prefs = new UserPreferences();
 
 var darkTheme = ThemeData.dark().copyWith(
-    accentColor: Colors.lightBlue,
+    colorScheme: ThemeData.dark().colorScheme.copyWith(secondary: Colors.lightBlue),
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: Colors.grey[900]));
 var lightTheme = ThemeData.light().copyWith(

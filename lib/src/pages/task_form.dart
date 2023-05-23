@@ -17,7 +17,7 @@ import 'package:khanos/src/utils/utils.dart';
 import 'package:khanos/src/utils/widgets_utils.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'dart:ui';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
 
