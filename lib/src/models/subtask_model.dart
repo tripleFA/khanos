@@ -31,14 +31,14 @@ class SubtaskModel {
   String? position;
 
   factory SubtaskModel.fromJson(Map<String, dynamic> json) => SubtaskModel(
-        id: json["id"],
+        id: json["id"].toString(),
         title: json["title"],
-        status: json["status"],
+        status: json["status"].toString(),
         timeEstimated: json["time_estimated"],
         timeSpent: json["time_spent"],
-        taskId: json["task_id"],
-        userId: json["user_id"],
-        position: json["position"],
+        taskId: json["task_id"].toString(),
+        userId: json["user_id"].toString(),
+        position: json["position"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
