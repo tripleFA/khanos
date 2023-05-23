@@ -14,6 +14,10 @@ class ChangelogPage extends StatelessWidget {
 
   _showChangelog() {
     final String changelog = """
+## Version 1.2.0
+- Upgrade to flutter 3.10
+- Fix subtask 
+
 ## Version 1.1.6
 ### **Added** 🚀
 - Swimlane Support for Tasks

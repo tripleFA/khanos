@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:khanos/src/utils/theme_utils.dart';
 import 'package:khanos/src/utils/widgets_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
   @override
@@ -30,15 +32,37 @@ _showAboutInfo(BuildContext context) {
             child: Column(
               children: <Widget>[
                 Text(
-                  'khanos App',
+                  'Khanos App',
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
                       color: CustomColors.TextSubHeader),
                 ),
+		RichText(
+                  text: TextSpan(
+                    text: 'Fork of the original project available ',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: CustomColors.TextSubHeader,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'here',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            launch('https://github.com/Jeoxs/khanos'); // Replace with your URL
+                          },
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(height: 15),
                 Text(
-                  'Version: 1.1.6_3',
+                  'Version: 1.2.0',
                   style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,

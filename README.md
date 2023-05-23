@@ -1,10 +1,12 @@
-[![Version](https://img.shields.io/badge/version-v1.1.6-red)](https://github.com/Jeoxs/khanos/releases/latest)
-[![Follow on Twitter](https://img.shields.io/badge/twitter-@thejoseaponte-blue.svg)](https://twitter.com/thejoseaponte)
-[![Download Khanos](https://img.shields.io/badge/download-khanos-green)](https://github.com/Jeoxs/khanos/releases)
+[![Version](https://img.shields.io/badge/version-v1.2.0-red)](https://github.com/tripleFA/khanos/releases/latest)
+[![Download Khanos](https://img.shields.io/badge/download-khanos-green)](https://github.com/tripleFA/khanos/releases)
+
+Fork of the original project available [here](https://github.com/Jeoxs/khanos)
+
 
 [<p align="center"><img src="https://user-images.githubusercontent.com/1626493/127225979-9abab89f-0adb-468c-bce5-deaeeffce56b.png"
       alt="Get it now on the Releases Page"
-      height="200"></p>](https://github.com/Jeoxs/khanos/releases)
+      height="200"></p>](https://github.com/tripleFA/khanos/releases)
 
 # Khanos
 > A Flutter Android Application for Kanboard
@@ -12,13 +14,8 @@
 A native app developed with Flutter framework which connects to the Kanboard API in your hosting or service.
 
 ## Install
-<p align="center"><a href="https://play.google.com/store/apps/details?id=com.gojaponte.khanos&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target="_blank"><img alt='Get it on Google Play' src="https://play.google.com/intl/es-419/badges/static/images/badges/en_badge_web_generic.png"
-      alt="Get it now on the Releases Page"
-      height="100"></a></p>
-      
-### Or 
 
-Download the latest release from github [Here](https://github.com/Jeoxs/khanos/releases)
+Download the latest release from github [Here](https://github.com/tripleFA/khanos/releases)
 
 ## Features
 
