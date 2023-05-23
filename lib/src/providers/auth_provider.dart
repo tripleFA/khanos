@@ -78,7 +78,7 @@ class AuthProvider {
       endpoint += '/jsonrpc.php';
     }
 
-    bool _validURL = Uri.tryParse(endpoint).isAbsolute;
+    bool _validURL = Uri.tryParse(endpoint)!.isAbsolute;
 
     if (_validURL != true) {
       Map<String, String> error = {
@@ -110,7 +110,7 @@ class AuthProvider {
 
     try {
       decodedData =
-          json.decode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>;
+          json.decode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>?;
     } on FormatException catch (_) {
       Map<String, String> error = {
         'message':
@@ -132,7 +132,7 @@ class AuthProvider {
       return Future.error(decodedData['error']);
     }
 
-    final List<dynamic> results = decodedData['result'];
+    final List<dynamic>? results = decodedData['result'];
 
     if (results != null) {
       _prefs.url = url;

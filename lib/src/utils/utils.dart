@@ -14,13 +14,13 @@ bool isNumeric(String s) {
   return (n == null) ? false : true;
 }
 
-void mostrarAlerta(BuildContext context, String mensaje) {
+void mostrarAlerta(BuildContext context, String? mensaje) {
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
           title: Text('Alert'),
-          content: Text(mensaje),
+          content: Text(mensaje!),
           actions: <Widget>[
             TextButton(
                 child: Text('Ok'),
@@ -100,9 +100,9 @@ showLoaderDialog(BuildContext context) {
 }
 
 Map<String, dynamic> processApiError(Map<String, dynamic> error) {
-  int errorCode = error['code'];
-  String errorMessage = error['message'];
-  int id = 0;
+  int? errorCode = error['code'];
+  String? errorMessage = error['message'];
+  int? id = 0;
 
   if (error['id'] != null) {
     id = error['id'];
@@ -160,7 +160,7 @@ Widget errorPage(Map<String, dynamic> error) {
   );
 }
 
-String getAvatarUrl(String userId, String avatarPath, String size) {
+String getAvatarUrl(String? userId, String avatarPath, String size) {
   String endPoint = _prefs.endpoint;
   String domain = endPoint.replaceAll("jsonrpc.php", "");
   String hash = crypto.md5.convert(utf8.encode(avatarPath)).toString();

@@ -115,7 +115,7 @@ Widget fullAppbar(BuildContext context) {
   );
 }
 
-Widget normalAppBar(String title, [Map<String, dynamic> appBarArguments]) {
+Widget normalAppBar(String title, [Map<String, dynamic>? appBarArguments]) {
   Widget appBarButton;
   if (appBarArguments != null) {
     appBarButton = IconButton(
@@ -174,7 +174,7 @@ Widget normalAppBar(String title, [Map<String, dynamic> appBarArguments]) {
 }
 
 class CircleOne extends CustomPainter {
-  Paint _paint;
+  late Paint _paint;
 
   CircleOne() {
     _paint = Paint()
@@ -195,7 +195,7 @@ class CircleOne extends CustomPainter {
 }
 
 class CircleTwo extends CustomPainter {
-  Paint _paint;
+  late Paint _paint;
 
   CircleTwo() {
     _paint = Paint()

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:khanos/src/utils/theme_utils.dart';
 
 class WelcomePage extends StatefulWidget {
-  WelcomePage({Key key}) : super(key: key);
+  WelcomePage({Key? key}) : super(key: key);
 
   _WelcomePageState createState() => _WelcomePageState();
 }

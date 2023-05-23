@@ -17,7 +17,7 @@ import 'package:khanos/src/utils/widgets_utils.dart';
 
 // ignore: must_be_immutable
 class KanbanPage extends StatefulWidget {
-  List<TaskModel> tasks;
+  List<TaskModel>? tasks;
 
   KanbanPage({this.tasks});
 
@@ -26,16 +26,16 @@ class KanbanPage extends StatefulWidget {
 }
 
 class _KanbanPageState extends State<KanbanPage> {
-  bool _darkTheme;
-  ThemeData currentThemeData;
+  bool? _darkTheme;
+  late ThemeData currentThemeData;
   final taskProvider = new TaskProvider();
   final projectProvider = new ProjectProvider();
   final _prefs = new UserPreferences();
-  List<TaskModel> tasks;
-  List<ColumnModel> columns;
-  ProjectModel _project;
-  List<UserModel> users;
-  String userRole;
+  List<TaskModel>? tasks;
+  List<ColumnModel>? columns;
+  ProjectModel? _project;
+  List<UserModel>? users;
+  String? userRole;
 
   //Can be used to animate to different sections of the BoardView
   BoardViewController boardViewController = new BoardViewController();
@@ -54,7 +54,7 @@ class _KanbanPageState extends State<KanbanPage> {
     columnItems = [];
     currentThemeData =
         _darkTheme == true ? ThemeData.dark() : ThemeData.light();
-    final Map kanbanArgs = ModalRoute.of(context).settings.arguments;
+    final Map kanbanArgs = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
     _project = kanbanArgs['project'];
     columns = kanbanArgs['columns'];
     users = kanbanArgs['users'];
@@ -64,13 +64,13 @@ class _KanbanPageState extends State<KanbanPage> {
       kanbanArgs['tasks'] = null;
     }
 
-    columns.forEach((col) {
+    columns!.forEach((col) {
       List<TaskModel> columnTasks =
-          tasks.where((task) => task.columnId == col.id).toList();
+          tasks!.where((task) => task.columnId == col.id).toList();
 
       List<BoardItemObject> columnObjects = [];
       if (columnTasks.isNotEmpty) {
-        columnTasks.sort((a, b) => a.position.compareTo(b.position));
+        columnTasks.sort((a, b) => a.position!.compareTo(b.position!));
         columnTasks.forEach((element) {
           columnObjects
               .add(BoardItemObject(title: element.title, taskContent: element));
@@ -86,7 +86,7 @@ class _KanbanPageState extends State<KanbanPage> {
     }
 
     return Scaffold(
-      appBar: normalAppBar(_project.name),
+      appBar: normalAppBar(_project!.name!) as PreferredSizeWidget?,
       body: _getKanban(_lists),
     );
   }
@@ -101,19 +101,19 @@ class _KanbanPageState extends State<KanbanPage> {
   Widget _createBoardList(BoardListObject list) {
     List<BoardItem> items = [];
 
-    for (int i = 0; i < list.items.length; i++) {
-      items.insert(i, buildBoardItem(list.items[i]) as BoardItem);
+    for (int i = 0; i < list.items!.length; i++) {
+      items.insert(i, buildBoardItem(list.items![i]) as BoardItem);
     }
 
     return BoardList(
-      onStartDragList: (int listIndex) {},
-      onTapList: (int listIndex) async {},
-      onDropList: (int listIndex, int oldListIndex) {
+      onStartDragList: (int? listIndex) {},
+      onTapList: (int? listIndex) async {},
+      onDropList: (int? listIndex, int? oldListIndex) {
         print('OLD: $oldListIndex - NEW: $listIndex');
         //Update our local list data
-        var list = _listData[oldListIndex];
+        var list = _listData[oldListIndex!];
         _listData.removeAt(oldListIndex);
-        _listData.insert(listIndex, list);
+        _listData.insert(listIndex!, list);
       },
       headerBackgroundColor:
           _prefs.darkTheme ? currentThemeData.cardColor : Colors.grey[300],
@@ -126,7 +126,7 @@ class _KanbanPageState extends State<KanbanPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    list.title,
+                    list.title!,
                     style: TextStyle(fontSize: 20),
                   ),
                 ))),
@@ -137,62 +137,62 @@ class _KanbanPageState extends State<KanbanPage> {
 
   Widget buildBoardItem(BoardItemObject itemObject) {
     return BoardItem(
-      onStartDragItem: (int listIndex, int itemIndex, BoardItemState state) {},
-      onDropItem: (int listIndex, int itemIndex, int oldListIndex,
-          int oldItemIndex, BoardItemState state) async {
+      onStartDragItem: (int? listIndex, int? itemIndex, BoardItemState state) {},
+      onDropItem: (int? listIndex, int? itemIndex, int? oldListIndex,
+          int? oldItemIndex, BoardItemState state) async {
         if (userRole != 'project-viewer') {
           //Used to update our local item data
-          var item = _listData[oldListIndex].items[oldItemIndex];
-          bool updateResult = await taskProvider.moveTaskPosition({
-            'task_id': itemObject.taskContent.id,
-            'project_id': itemObject.taskContent.projectId,
-            'column_id': _listData[listIndex].columnContent.id,
-            'position': itemIndex + 1,
-            'swimlane_id': itemObject.taskContent.swimlaneId,
-          });
+          var item = _listData[oldListIndex!].items![oldItemIndex!];
+          bool updateResult = (await taskProvider.moveTaskPosition({
+            'task_id': itemObject.taskContent!.id,
+            'project_id': itemObject.taskContent!.projectId,
+            'column_id': _listData[listIndex!].columnContent!.id,
+            'position': itemIndex! + 1,
+            'swimlane_id': itemObject.taskContent!.swimlaneId,
+          }))!;
 
           if (updateResult) {
-            _listData[oldListIndex].items.removeAt(oldItemIndex);
-            _listData[listIndex].items.insert(itemIndex, item);
-            itemObject.taskContent.columnId =
-                _listData[listIndex].columnContent.id;
-            tasks[tasks.indexWhere(
-                    (element) => element.id == itemObject.taskContent.id)]
-                .columnId = _listData[listIndex].columnContent.id;
-            tasks[tasks.indexWhere(
-                    (element) => element.id == itemObject.taskContent.id)]
+            _listData[oldListIndex].items!.removeAt(oldItemIndex);
+            _listData[listIndex].items!.insert(itemIndex, item);
+            itemObject.taskContent!.columnId =
+                _listData[listIndex].columnContent!.id;
+            tasks![tasks!.indexWhere(
+                    (element) => element.id == itemObject.taskContent!.id)]
+                .columnId = _listData[listIndex].columnContent!.id;
+            tasks![tasks!.indexWhere(
+                    (element) => element.id == itemObject.taskContent!.id)]
                 .position = (itemIndex + 1).toString();
-            tasks = taskProvider.getTasks(int.parse(_project.id), 1)
+            tasks = taskProvider.getTasks(int.parse(_project!.id!), 1)
                 as List<TaskModel>;
           }
         }
         setState(() {});
       },
-      onTapItem: (int listIndex, int itemIndex, BoardItemState state) async {
+      onTapItem: (int? listIndex, int? itemIndex, BoardItemState state) async {
         Feedback.forTap(context);
         Navigator.pushNamed(context, 'task', arguments: {
-          'task_id': itemObject.taskContent.id,
+          'task_id': itemObject.taskContent!.id,
           'project': _project,
           'userRole': userRole
         }).then((_) async {
-          tasks = await taskProvider.getTasks(int.parse(_project.id), 1);
+          tasks = await taskProvider.getTasks(int.parse(_project!.id!), 1);
           setState(() {});
         });
       },
-      item: _taskElement(itemObject.taskContent.title,
-          itemObject.taskContent.colorId, itemObject.taskContent.ownerId),
+      item: _taskElement(itemObject.taskContent!.title!,
+          itemObject.taskContent!.colorId, itemObject.taskContent!.ownerId),
     );
   }
 
-  Widget _taskElement(String title, String color, String ownerId) {
+  Widget _taskElement(String title, String? color, String? ownerId) {
     Widget avatar;
 
     if (ownerId != '0') {
-      UserModel owner = users.firstWhere((user) => user.id == ownerId);
+      UserModel owner = users!.firstWhere((user) => user.id == ownerId);
       avatar = (owner.avatarPath != null)
           ? FadeInImage(
               image:
-                  NetworkImage(getAvatarUrl(ownerId, owner.avatarPath, '40')),
+                  NetworkImage(getAvatarUrl(ownerId, owner.avatarPath!, '40')),
               placeholder: AssetImage('assets/images/icon-user.png'),
             )
           : Padding(
@@ -230,7 +230,7 @@ class _KanbanPageState extends State<KanbanPage> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           stops: [0.015, 0.015],
-          colors: [TaskModel().getTaskColor(color), currentThemeData.cardColor],
+          colors: [TaskModel().getTaskColor(color)!, currentThemeData.cardColor],
         ),
         borderRadius: BorderRadius.all(
           Radius.circular(5.0),

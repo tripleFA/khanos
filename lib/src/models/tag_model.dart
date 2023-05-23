@@ -15,9 +15,9 @@ class TagModel {
     this.projectId,
   });
 
-  String id;
-  String name;
-  String projectId;
+  String? id;
+  String? name;
+  String? projectId;
 
   factory TagModel.fromJson(Map<String, dynamic> json) => TagModel(
         id: json["id"],

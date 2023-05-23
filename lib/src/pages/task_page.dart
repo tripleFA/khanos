@@ -28,22 +28,22 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   final _prefs = new UserPreferences();
-  Map<String, dynamic> error;
-  TaskModel task = new TaskModel();
-  int taskId;
+  Map<String, dynamic>? error;
+  TaskModel? task = new TaskModel();
+  int? taskId;
   List<ColumnModel> projectColumns = [];
-  List<TagModel> _tags = [];
-  List<SwimlaneModel> swimlanes = [];
-  ProjectModel project;
-  String userRole;
+  List<TagModel>? _tags = [];
+  List<SwimlaneModel>? swimlanes = [];
+  ProjectModel? project;
+  String? userRole;
   final taskProvider = new TaskProvider();
   final tagProvider = new TagProvider();
   final subtaskProvider = new SubtaskProvider();
   final userProvider = new UserProvider();
   final columnProvider = new ColumnProvider();
 
-  bool _darkTheme;
-  ThemeData currentThemeData;
+  bool? _darkTheme;
+  ThemeData? currentThemeData;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     currentThemeData =
         _darkTheme == true ? ThemeData.dark() : ThemeData.light();
-    final Map taskArgs = ModalRoute.of(context).settings.arguments;
+    final Map taskArgs = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
 
     // final String projectName = taskArgs['project_name'];
     project = taskArgs['project'];
@@ -63,7 +63,7 @@ class _TaskPageState extends State<TaskPage> {
     taskId = int.parse(taskArgs['task_id']);
 
     return Scaffold(
-      appBar: normalAppBar(project.name),
+      appBar: normalAppBar(project!.name!) as PreferredSizeWidget?,
       body: Container(width: double.infinity, child: _taskInfo()),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -113,13 +113,13 @@ class _TaskPageState extends State<TaskPage> {
     return FutureBuilder(
       future: Future.wait([
         TaskProvider().getTask(taskId),
-        ProjectProvider().getProjectUsers(int.parse(project.id)),
-        SwimlaneProvider().getActiveSwimlanes(int.parse(project.id)),
+        ProjectProvider().getProjectUsers(int.parse(project!.id!)),
+        SwimlaneProvider().getActiveSwimlanes(int.parse(project!.id!)),
       ]),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
-          processApiError(snapshot.error);
-          error = snapshot.error;
+          processApiError(snapshot.error as Map<String, dynamic>);
+          error = snapshot.error as Map<String, dynamic>?;
           if (_prefs.authFlag != true) {
             final SnackBar _snackBar = SnackBar(
               content: const Text('Login Failed!'),
@@ -139,16 +139,16 @@ class _TaskPageState extends State<TaskPage> {
             return Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 20.0),
-                child: errorPage(snapshot.error));
+                child: errorPage(snapshot.error as Map<String, dynamic>));
           }
         }
 
         if (snapshot.hasData) {
           task = snapshot.data[0];
-          List<UserModel> projectUsers = snapshot.data[1];
+          List<UserModel>? projectUsers = snapshot.data[1];
           swimlanes = snapshot.data[2];
           SwimlaneModel swimlane =
-              swimlanes.firstWhere((element) => element.id == task.swimlaneId);
+              swimlanes!.firstWhere((element) => element.id == task!.swimlaneId);
           return Column(
             children: [
               Expanded(
@@ -160,7 +160,7 @@ class _TaskPageState extends State<TaskPage> {
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width / 1.2,
-                          child: Text('Task #${task.id} - ${task.title}',
+                          child: Text('Task #${task!.id} - ${task!.title}',
                               style: TextStyle(
                                   fontSize: 22, fontStyle: FontStyle.normal)),
                         ),
@@ -178,7 +178,7 @@ class _TaskPageState extends State<TaskPage> {
                             color: Colors.blueGrey),
                       ),
                       Text(
-                          'Created: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task.dateCreation)}'),
+                          'Created: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task!.dateCreation!)}'),
                     ]),
                     SizedBox(height: 20.0),
                     Row(children: [
@@ -188,7 +188,7 @@ class _TaskPageState extends State<TaskPage> {
                             Icon(Icons.calendar_today, color: Colors.blueGrey),
                       ),
                       Text(
-                          'Modified: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task.dateModification)}'),
+                          'Modified: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task!.dateModification!)}'),
                     ]),
                     SizedBox(height: 20.0),
                     Row(children: [
@@ -197,11 +197,11 @@ class _TaskPageState extends State<TaskPage> {
                         child: Icon(Icons.security_rounded,
                             color: Colors.blueGrey),
                       ),
-                      (task.creatorId != '0')
-                          ? _userButton(projectUsers
+                      (task!.creatorId != '0')
+                          ? _userButton(projectUsers!
                               .firstWhere(
-                                  (element) => element.id == task.creatorId)
-                              .name)
+                                  (element) => element.id == task!.creatorId)
+                              .name!)
                           : Text('N/A'),
                     ]),
                     SizedBox(height: 20.0),
@@ -210,11 +210,11 @@ class _TaskPageState extends State<TaskPage> {
                         padding: const EdgeInsets.only(right: 10.0),
                         child: Icon(Icons.person, color: Colors.blueGrey),
                       ),
-                      (task.ownerId != '0')
-                          ? _userButton(projectUsers
+                      (task!.ownerId != '0')
+                          ? _userButton(projectUsers!
                               .firstWhere(
-                                  (element) => element.id == task.ownerId)
-                              .name)
+                                  (element) => element.id == task!.ownerId)
+                              .name!)
                           : Text('N/A'),
                     ]),
 
@@ -235,7 +235,7 @@ class _TaskPageState extends State<TaskPage> {
                         child: Icon(Icons.watch_later_outlined,
                             color: Colors.blueGrey),
                       ),
-                      Text('Estimated: ${task.timeEstimated} hours')
+                      Text('Estimated: ${task!.timeEstimated} hours')
                     ]),
                     SizedBox(height: 20.0),
                     Row(children: [
@@ -244,10 +244,10 @@ class _TaskPageState extends State<TaskPage> {
                         child: Icon(Icons.watch_later_outlined,
                             color: Colors.blueGrey),
                       ),
-                      Text('Spent: ${task.timeSpent} hours')
+                      Text('Spent: ${task!.timeSpent} hours')
                     ]),
                     SizedBox(height: 20.0),
-                    task.dateStarted != '0'
+                    task!.dateStarted != '0'
                         ? Row(children: [
                             Padding(
                               padding: const EdgeInsets.only(right: 10.0),
@@ -255,11 +255,11 @@ class _TaskPageState extends State<TaskPage> {
                                   color: Colors.blueGrey),
                             ),
                             Text(
-                                'Start: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task.dateStarted)}'),
+                                'Start: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task!.dateStarted!)}'),
                           ])
                         : Container(),
                     SizedBox(height: 20.0),
-                    task.dateDue != '0'
+                    task!.dateDue != '0'
                         ? Row(children: [
                             Padding(
                               padding: const EdgeInsets.only(right: 10.0),
@@ -267,7 +267,7 @@ class _TaskPageState extends State<TaskPage> {
                                   color: Colors.blueGrey),
                             ),
                             Text(
-                                'Modified: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task.dateDue)}'),
+                                'Modified: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task!.dateDue!)}'),
                           ])
                         : Container(),
                     Row(
@@ -278,7 +278,7 @@ class _TaskPageState extends State<TaskPage> {
                       ],
                     ),
                     SizedBox(height: 10.0),
-                    _taskTags(task.id),
+                    _taskTags(task!.id!),
                     Row(
                       children: [
                         Text('Description',
@@ -292,8 +292,8 @@ class _TaskPageState extends State<TaskPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
-                              task.description != ""
-                                  ? task.description
+                              task!.description != ""
+                                  ? task!.description!
                                   : 'No Description',
                               textAlign: TextAlign.left),
                         )),
@@ -316,8 +316,8 @@ class _TaskPageState extends State<TaskPage> {
         future: UserProvider().getUser(int.parse(creatorId)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            processApiError(snapshot.error);
-            error = snapshot.error;
+            processApiError(snapshot.error as Map<String, dynamic>);
+            error = snapshot.error as Map<String, dynamic>?;
             if (_prefs.authFlag != true) {
               final SnackBar _snackBar = SnackBar(
                 content: const Text('Login Failed!'),
@@ -337,7 +337,7 @@ class _TaskPageState extends State<TaskPage> {
           }
           if (snapshot.hasData) {
             final UserModel user = snapshot.data;
-            return _userButton(user.username);
+            return _userButton(user.username!);
           } else {
             return Text('Loading..');
           }
@@ -345,7 +345,7 @@ class _TaskPageState extends State<TaskPage> {
   }
 
   void _closeTask(String taskId) async {
-    bool result = await taskProvider.closeTask(int.parse(taskId));
+    bool result = (await taskProvider.closeTask(int.parse(taskId)))!;
     Navigator.pop(context);
     if (result) {
       setState(() {
@@ -361,7 +361,7 @@ class _TaskPageState extends State<TaskPage> {
       onTap: () {
         showLoaderDialog(context);
         Feedback.forTap(context);
-        _closeTask(task.id);
+        _closeTask(task!.id!);
       },
       child: Container(
         margin: EdgeInsets.only(right: 10),
@@ -422,8 +422,8 @@ class _TaskPageState extends State<TaskPage> {
         future: TagProvider().getTagsByTask(int.parse(taskId)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            processApiError(snapshot.error);
-            error = snapshot.error;
+            processApiError(snapshot.error as Map<String, dynamic>);
+            error = snapshot.error as Map<String, dynamic>?;
             if (_prefs.authFlag != true) {
               final SnackBar _snackBar = SnackBar(
                 content: const Text('Login Failed!'),
@@ -443,14 +443,14 @@ class _TaskPageState extends State<TaskPage> {
           }
           if (snapshot.hasData) {
             _tags = snapshot.data;
-            if (_tags.length > 0) {
+            if (_tags!.length > 0) {
               List<Widget> chips = [];
-              _tags.forEach((tag) {
+              _tags!.forEach((tag) {
                 chips.add(Chip(
                   backgroundColor: Colors.blue,
                   elevation: 4.0,
                   label: Text(
-                    tag.name,
+                    tag.name!,
                   ),
                 ));
               });
@@ -603,7 +603,7 @@ class _TaskPageState extends State<TaskPage> {
         ],
       ),
       baseColor: CustomColors.BlueDark,
-      highlightColor: Colors.lightBlue[200],
+      highlightColor: Colors.lightBlue[200]!,
     );
   }
 }

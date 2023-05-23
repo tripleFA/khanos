@@ -22,14 +22,14 @@ class SubtaskPage extends StatefulWidget {
 
 class _SubtaskPageState extends State<SubtaskPage> {
   final _prefs = new UserPreferences();
-  Map<String, dynamic> error;
-  TaskModel task = new TaskModel();
+  Map<String, dynamic>? error;
+  TaskModel? task = new TaskModel();
   final taskProvider = new TaskProvider();
   final subtaskProvider = new SubtaskProvider();
-  bool _darkTheme;
-  String userRole;
-  ThemeData currentThemeData;
-  List<UserModel> users;
+  bool? _darkTheme;
+  String? userRole;
+  late ThemeData currentThemeData;
+  late List<UserModel> users;
   final userProvider = new UserProvider();
 
   @override
@@ -42,14 +42,14 @@ class _SubtaskPageState extends State<SubtaskPage> {
   Widget build(BuildContext context) {
     currentThemeData =
         _darkTheme == true ? ThemeData.dark() : ThemeData.light();
-    final Map taskArgs = ModalRoute.of(context).settings.arguments;
+    final Map taskArgs = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
     task = taskArgs['task'];
     userRole = taskArgs['userRole'];
     return Scaffold(
-      appBar: normalAppBar(task.title),
+      appBar: normalAppBar(task!.title!) as PreferredSizeWidget?,
       body: Container(
         width: double.infinity,
-        child: _subtaskList(int.parse(task.id)),
+        child: _subtaskList(int.parse(task!.id!)),
       ),
       floatingActionButton: (userRole != 'project-viewer') ? FloatingActionButton(
         backgroundColor: Colors.blue,
@@ -66,12 +66,12 @@ class _SubtaskPageState extends State<SubtaskPage> {
     return FutureBuilder(
         future: Future.wait([
           subtaskProvider.getSubtasks(taskId),
-          ProjectProvider().getProjectUsers(int.parse(task.projectId)),
+          ProjectProvider().getProjectUsers(int.parse(task!.projectId!)),
         ]),
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.hasError) {
-            processApiError(snapshot.error);
-            error = snapshot.error;
+            processApiError(snapshot.error as Map<String, dynamic>);
+            error = snapshot.error as Map<String, dynamic>?;
             if (_prefs.authFlag != true) {
               final SnackBar _snackBar = SnackBar(
                 content: const Text('Login Failed!'),
@@ -91,12 +91,12 @@ class _SubtaskPageState extends State<SubtaskPage> {
               return Container(
                   width: double.infinity,
                   padding: EdgeInsets.only(top: 20.0),
-                  child: errorPage(snapshot.error));
+                  child: errorPage(snapshot.error as Map<String, dynamic>));
             }
           }
           if (snapshot.hasData) {
-            final List<SubtaskModel> subtasks = snapshot.data[0];
-            users = snapshot.data[1];
+            final List<SubtaskModel> subtasks = snapshot.data![0];
+            users = snapshot.data![1];
             if (subtasks.length > 0) {
               return Column(
                 children: [
@@ -164,7 +164,7 @@ class _SubtaskPageState extends State<SubtaskPage> {
                                 ),
                                 onTap: () {
                                   showLoaderDialog(context);
-                                  _removeSubtask(subtasks[i].id);
+                                  _removeSubtask(subtasks[i].id!);
                                 },
                               ),
                             ],
@@ -220,8 +220,8 @@ class _SubtaskPageState extends State<SubtaskPage> {
                             ],
                           );
                         }),
-                    baseColor: Colors.grey[500],
-                    highlightColor: Colors.grey[700],
+                    baseColor: Colors.grey[500]!,
+                    highlightColor: Colors.grey[700]!,
                   ),
                 ),
               ],
@@ -231,8 +231,8 @@ class _SubtaskPageState extends State<SubtaskPage> {
   }
 
   Widget _subtaskElement(
-      String title, String status, String timeSpent, String id, String userId) {
-    Icon _subtaskIcon;
+      String? title, String? status, String? timeSpent, String? id, String? userId) {
+    late Icon _subtaskIcon;
 
     switch (status) {
       case "0":
@@ -253,7 +253,7 @@ class _SubtaskPageState extends State<SubtaskPage> {
       avatar = (owner.avatarPath != null)
           ? FadeInImage(
               image:
-                  NetworkImage(getAvatarUrl(owner.id, owner.avatarPath, '40')),
+                  NetworkImage(getAvatarUrl(owner.id, owner.avatarPath!, '40')),
               placeholder: AssetImage('assets/images/icon-user.png'),
             )
           : Padding(
@@ -280,7 +280,7 @@ class _SubtaskPageState extends State<SubtaskPage> {
           ),
           Container(
             width: 200,
-            child: Text(title,
+            child: Text(title!,
                 style: TextStyle(
                   fontSize: 15,
                   decoration:
@@ -325,7 +325,7 @@ class _SubtaskPageState extends State<SubtaskPage> {
   }
 
   _removeSubtask(String subtaskId) async {
-    bool result = await subtaskProvider.removeSubtask(int.parse(subtaskId));
+    bool result = (await subtaskProvider.removeSubtask(int.parse(subtaskId)))!;
     Navigator.pop(context);
     if (result) {
       setState(() {});

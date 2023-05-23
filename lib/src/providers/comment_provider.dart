@@ -46,7 +46,7 @@ class CommentProvider {
     return comments;
   }
 
-  Future<CommentModel> getComment(int commentId) async {
+  Future<CommentModel?> getComment(int commentId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "getComment",
@@ -80,7 +80,7 @@ class CommentProvider {
     return comment;
   }
 
-  Future<int> createComment(Map<String, dynamic> args) async {
+  Future<int?> createComment(Map<String, dynamic> args) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "createComment",
@@ -146,10 +146,10 @@ class CommentProvider {
 
     final result = decodedData['result'];
 
-    return (result != false && result != null) ? result : 0;
+    return (result != false && result != null) ? result : 0 as Future<bool>;
   }
 
-  Future<bool> removeComment(int commentId) async {
+  Future<bool?> removeComment(int commentId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "removeComment",

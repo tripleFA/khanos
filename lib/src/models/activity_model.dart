@@ -27,20 +27,20 @@ class ActivityModel {
     this.eventContent,
   });
 
-  String id;
-  String dateCreation;
-  String eventName;
-  String creatorId;
-  String projectId;
-  String taskId;
-  String authorUsername;
-  String authorName;
-  String email;
-  Map<String, dynamic> task;
+  String? id;
+  String? dateCreation;
+  String? eventName;
+  String? creatorId;
+  String? projectId;
+  String? taskId;
+  String? authorUsername;
+  String? authorName;
+  String? email;
+  Map<String, dynamic>? task;
   dynamic changes;
-  String author;
-  String eventTitle;
-  String eventContent;
+  String? author;
+  String? eventTitle;
+  String? eventContent;
 
   factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
         id: json["id"].toString(),

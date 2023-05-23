@@ -39,11 +39,11 @@ class ProjectProvider {
 
     final List<ProjectModel> projects = [];
 
-    final List<dynamic> results = decodedData['result'];
+    final List<dynamic>? results = decodedData['result'];
 
     if (decodedData == null) return [];
 
-    results.forEach((project) {
+    results!.forEach((project) {
       final projTemp = ProjectModel.fromJson(project);
       projects.add(projTemp);
     });
@@ -91,7 +91,7 @@ class ProjectProvider {
     return users;
   }
 
-  Future<String> getProjectUserRole(int projectId, int userId) async {
+  Future<String?> getProjectUserRole(int projectId, int userId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "getProjectUserRole",
@@ -196,7 +196,7 @@ class ProjectProvider {
     return (result > 0) ? result : 0;
   }
 
-  Future<bool> removeProject(int projectId) async {
+  Future<bool?> removeProject(int projectId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "removeProject",

@@ -4,9 +4,9 @@ import 'package:khanos/src/utils/theme_utils.dart';
 import 'package:khanos/src/utils/widgets_utils.dart';
 
 class KhanosAppBar extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  final Map<String, dynamic> arguments;
+  final Map<String, dynamic>? arguments;
 
   KhanosAppBar({this.title, this.arguments});
 
@@ -20,11 +20,11 @@ class _KhanosAppBarState extends State<KhanosAppBar> {
     Widget appBarButton;
     if (widget.arguments != null) {
       appBarButton = IconButton(
-        icon: Icon(widget.arguments['icon']),
+        icon: Icon(widget.arguments!['icon']),
         onPressed: () {
           Navigator.pushNamed(
-                  widget.arguments['context'], widget.arguments['route'],
-                  arguments: widget.arguments['arguments'])
+                  widget.arguments!['context'], widget.arguments!['route'],
+                  arguments: widget.arguments!['arguments'])
               .then((_) => setState(() {}));
         },
       );
@@ -52,7 +52,7 @@ class _KhanosAppBarState extends State<KhanosAppBar> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                widget.title,
+                widget.title!,
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
             ],

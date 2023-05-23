@@ -47,7 +47,7 @@ class UserProvider {
     return users;
   }  
 
-  Future<UserModel> getUser(int userId) async {
+  Future<UserModel?> getUser(int userId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "getUser",

@@ -7,7 +7,7 @@ class ChangelogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: normalAppBar('Changelog'),
+      appBar: normalAppBar('Changelog') as PreferredSizeWidget?,
       body: _showChangelog(),
     );
   }

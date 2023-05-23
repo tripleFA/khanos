@@ -15,14 +15,14 @@ class OverdueTasksPage extends StatefulWidget {
 }
 
 class _OverdueTasksPageState extends State<OverdueTasksPage> {
-  bool _darkTheme;
-  ThemeData currentThemeData;
-  List<TaskModel> tasks;
-  List<ProjectModel> projects;
+  bool? _darkTheme;
+  ThemeData? currentThemeData;
+  List<TaskModel>? tasks;
+  List<ProjectModel>? projects;
   TaskProvider taskProvider = new TaskProvider();
   ProjectProvider projectProvider = new ProjectProvider();
   final _prefs = new UserPreferences();
-  Map<String, dynamic> error;
+  Map<String, dynamic>? error;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _OverdueTasksPageState extends State<OverdueTasksPage> {
         if (snapshot.hasData) {
           tasks = snapshot.data[0];
           projects = snapshot.data[1];
-          if (tasks.length > 0) {
+          if (tasks!.length > 0) {
             return Column(
               children: [
                 Container(
@@ -56,25 +56,25 @@ class _OverdueTasksPageState extends State<OverdueTasksPage> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: tasks.length,
+                      itemCount: tasks!.length,
                       itemBuilder: (BuildContext context, int i) {
                         return GestureDetector(
                           onTap: () {
                             Feedback.forTap(context);
                             Navigator.pushNamed(context, 'task', arguments: {
-                              'task_id': tasks[i].id,
-                              'project': projects.firstWhere((element) =>
-                                  element.id == tasks[i].projectId),
+                              'task_id': tasks![i].id,
+                              'project': projects!.firstWhere((element) =>
+                                  element.id == tasks![i].projectId),
                             }).then((_) => setState(() {}));
                           },
                           child: _taskElement(
-                              tasks[i].dateDue,
-                              tasks[i].title,
-                              tasks[i].colorId,
-                              projects
+                              tasks![i].dateDue!,
+                              tasks![i].title!,
+                              tasks![i].colorId,
+                              projects!
                                   .firstWhere((element) =>
-                                      element.id == tasks[i].projectId)
-                                  .name),
+                                      element.id == tasks![i].projectId)
+                                  .name!),
                         );
                       }),
                 ),
@@ -151,7 +151,7 @@ class _OverdueTasksPageState extends State<OverdueTasksPage> {
                         );
                       }),
                   baseColor: CustomColors.BlueDark,
-                  highlightColor: Colors.lightBlue[200],
+                  highlightColor: Colors.lightBlue[200]!,
                 ),
               )
             ],
@@ -162,9 +162,9 @@ class _OverdueTasksPageState extends State<OverdueTasksPage> {
   }
 
   Widget _taskElement(
-      String timeDue, String title, String colorId, String projectName) {
+      String timeDue, String title, String? colorId, String projectName) {
     Color color =
-        (colorId != null) ? TaskModel().getTaskColor(colorId) : Colors.blue;
+        (colorId != null) ? TaskModel().getTaskColor(colorId)! : Colors.blue;
     return Container(
       margin: EdgeInsets.fromLTRB(20, 0, 20, 15),
       padding: EdgeInsets.fromLTRB(25, 13, 5, 13),

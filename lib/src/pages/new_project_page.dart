@@ -18,8 +18,8 @@ class _NewProjectPageState extends State<NewProjectPage> {
   String _name = '';
   String _description = '';
   String _identifier = '';
-  bool _personalProject = false;
-  String _appRole;
+  bool? _personalProject = false;
+  String? _appRole;
 
   TextEditingController _nameFieldController = new TextEditingController();
   TextEditingController _descriptionFieldController =
@@ -35,7 +35,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: normalAppBar('New Project'),
+      appBar: normalAppBar('New Project') as PreferredSizeWidget?,
       body: _newProjectForm(),
     );
   }
@@ -83,7 +83,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
   _submitButton() {
     return ElevatedButton(
       onPressed: () {
-        if (_formKey.currentState.validate()) {
+        if (_formKey.currentState!.validate()) {
           showLoaderDialog(context);
           _createProject(context);
         } else {
@@ -99,7 +99,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
     int newProjectId = 0;
     bool error = false;
     try {
-      if(_personalProject){
+      if(_personalProject!){
         newProjectId = await ProjectProvider().createPersonalProject(_name, _identifier, _description);
       }else{        
         newProjectId = await ProjectProvider().createProject(_name, _identifier, _description);
@@ -107,7 +107,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
     } catch (e) {
       error = true;
       Navigator.pop(context);
-      mostrarAlerta(context, e['message']);
+      mostrarAlerta(context, (e as Map)['message']);
     }
 
     if (newProjectId > 0) {

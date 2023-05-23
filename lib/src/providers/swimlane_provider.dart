@@ -30,7 +30,7 @@ class SwimlaneProvider {
     // print(decodedData);
     final List<SwimlaneModel> swimlanes = [];
 
-    final List<dynamic> results = decodedData['result'];
+    final List<dynamic>? results = decodedData['result'];
 
     if (decodedData == null) return [];
 
@@ -39,7 +39,7 @@ class SwimlaneProvider {
       return Future.error(decodedData['error']);
     }
 
-    results.forEach((swimlane) {
+    results!.forEach((swimlane) {
       final swimlaneTemp = SwimlaneModel.fromJson(swimlane);
       swimlanes.add(swimlaneTemp);
     });

@@ -34,38 +34,38 @@ class _TaskFormPageState extends State<TaskFormPage> {
   final tagProvider = new TagProvider();
   final taskProvider = new TaskProvider();
 
-  ProjectModel project = new ProjectModel();
-  TaskModel task = new TaskModel();
+  ProjectModel? project = new ProjectModel();
+  TaskModel? task = new TaskModel();
 
-  bool _darkTheme;
-  ThemeData currentThemeData;
+  bool? _darkTheme;
+  ThemeData? currentThemeData;
 
-  List<UserModel> _users = [];
-  List<ColumnModel> _columns = [];
-  List<SwimlaneModel> swimlanes = [];
-  DateTime dateStartedLimitMin;
-  DateTime startedDateLimitMax;
-  DateTime dateDueLimitMin;
-  DateTime dueDateLimitMax;
+  List<UserModel>? _users = [];
+  List<ColumnModel>? _columns = [];
+  List<SwimlaneModel>? swimlanes = [];
+  DateTime? dateStartedLimitMin;
+  DateTime? startedDateLimitMax;
+  DateTime? dateDueLimitMin;
+  DateTime? dueDateLimitMax;
   DateTime currentDateDue = DateTime.now();
   DateTime currentDateStarted = DateTime.now();
-  String _title = '';
-  String _description = '';
-  ColorSwatch _tempTaskColor;
-  Color _mainColor = Colors.blue;
-  String _colorId = 'blue';
-  String _creatorId = '0';
-  String _ownerId = '0';
-  String _columnId = '0';
-  String _swimlaneId;
-  String _timeEstimated = '';
-  String _timeSpent = '';
+  String? _title = '';
+  String? _description = '';
+  ColorSwatch? _tempTaskColor;
+  Color? _mainColor = Colors.blue;
+  String? _colorId = 'blue';
+  String? _creatorId = '0';
+  String? _ownerId = '0';
+  String? _columnId = '0';
+  String? _swimlaneId;
+  String? _timeEstimated = '';
+  String? _timeSpent = '';
   String _dateStarted = '';
   String _dueDate = '';
-  String _score = ''; // COMPLEXITY
-  String _priority = '0';
+  String? _score = ''; // COMPLEXITY
+  String? _priority = '0';
   List<TagModel> _availableTags = [];
-  List<String> _tags = [];
+  List<String?> _tags = [];
 
   bool createTask = true;
 
@@ -91,7 +91,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
   Widget build(BuildContext context) {
     currentThemeData =
         _darkTheme == true ? ThemeData.dark() : ThemeData.light();
-    final Map taskArgs = ModalRoute.of(context).settings.arguments;
+    final Map taskArgs = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
     project = taskArgs['project'];
     _users = taskArgs['usersData'];
 
@@ -99,47 +99,47 @@ class _TaskFormPageState extends State<TaskFormPage> {
       task = taskArgs['task'];
       createTask = false;
 
-      _title = task.title;
-      _titleFieldController.text = _title;
-      _description = task.description;
-      _descriptionFieldController.text = _description;
-      _creatorId = task.creatorId;
-      _ownerId = task.ownerId;
-      _columnId = task.columnId;
-      _swimlaneId = task.swimlaneId;
-      _timeSpent = task.timeSpent;
-      _timeSpentFieldController.text = _timeSpent;
-      _timeEstimated = task.timeEstimated;
-      _timeEstimatedFieldController.text = _timeEstimated;
-      _colorId = task.colorId;
+      _title = task!.title;
+      _titleFieldController.text = _title!;
+      _description = task!.description;
+      _descriptionFieldController.text = _description!;
+      _creatorId = task!.creatorId;
+      _ownerId = task!.ownerId;
+      _columnId = task!.columnId;
+      _swimlaneId = task!.swimlaneId;
+      _timeSpent = task!.timeSpent;
+      _timeSpentFieldController.text = _timeSpent!;
+      _timeEstimated = task!.timeEstimated;
+      _timeEstimatedFieldController.text = _timeEstimated!;
+      _colorId = task!.colorId;
       _mainColor = TaskModel().getTaskColor(_colorId);
 
-      if (task.dateDue != '0') {
-        _dueDate = getStringDateTimeFromEpoch("dd/MM/yyyy HH:mm", task.dateDue);
+      if (task!.dateDue != '0') {
+        _dueDate = getStringDateTimeFromEpoch("dd/MM/yyyy HH:mm", task!.dateDue!);
         _dateDueFieldController.text =
-            getStringDateTimeFromEpoch("dd/MM/yy HH:mm", task.dateDue);
-        startedDateLimitMax = getDateTimeFromEpoch(task.dateDue);
-        currentDateDue = getDateTimeFromEpoch(task.dateDue);
+            getStringDateTimeFromEpoch("dd/MM/yy HH:mm", task!.dateDue!);
+        startedDateLimitMax = getDateTimeFromEpoch(task!.dateDue!);
+        currentDateDue = getDateTimeFromEpoch(task!.dateDue!);
       } else {
         _dueDate = '';
         _dateDueFieldController.text = _dueDate;
       }
 
-      if (task.dateStarted != '0') {
+      if (task!.dateStarted != '0') {
         _dateStarted =
-            getStringDateTimeFromEpoch("dd/MM/yyyy HH:mm", task.dateStarted);
+            getStringDateTimeFromEpoch("dd/MM/yyyy HH:mm", task!.dateStarted!);
         _dateStartedFieldController.text =
-            getStringDateTimeFromEpoch("dd/MM/yy HH:mm", task.dateStarted);
-        dateDueLimitMin = getDateTimeFromEpoch(task.dateStarted);
-        currentDateStarted = getDateTimeFromEpoch(task.dateStarted);
+            getStringDateTimeFromEpoch("dd/MM/yy HH:mm", task!.dateStarted!);
+        dateDueLimitMin = getDateTimeFromEpoch(task!.dateStarted!);
+        currentDateStarted = getDateTimeFromEpoch(task!.dateStarted!);
       } else {
         _dateStarted = '';
         _dateStartedFieldController.text = _dateStarted;
       }
 
-      _priority = task.priority;
-      _score = task.score;
-      _scoreFieldController.text = _score;
+      _priority = task!.priority;
+      _score = task!.score;
+      _scoreFieldController.text = _score!;
       taskArgs['task'] = null;
     }
 
@@ -150,14 +150,14 @@ class _TaskFormPageState extends State<TaskFormPage> {
     taskArgs.removeWhere((key, value) => key == 'tags');
 
     return Scaffold(
-      appBar: normalAppBar(createTask ? 'New Task' : task.title),
+      appBar: normalAppBar(createTask ? 'New Task' : task!.title!) as PreferredSizeWidget?,
       body: FutureBuilder(
         future: Future.wait([
-          tagProvider.getTagsByProject(int.parse(project.id)),
+          tagProvider.getTagsByProject(int.parse(project!.id!)),
           tagProvider.getDefaultTags(),
-          projectProvider.getProjectUsers(int.parse(project.id)),
-          columnProvider.getColumns(int.parse(project.id)),
-          SwimlaneProvider().getActiveSwimlanes(int.parse(project.id)),
+          projectProvider.getProjectUsers(int.parse(project!.id!)),
+          columnProvider.getColumns(int.parse(project!.id!)),
+          SwimlaneProvider().getActiveSwimlanes(int.parse(project!.id!)),
         ]),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
@@ -218,7 +218,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
                     );
                   }),
               baseColor: CustomColors.BlueDark,
-              highlightColor: Colors.lightBlue[200],
+              highlightColor: Colors.lightBlue[200]!,
             );
           }
         },
@@ -409,11 +409,11 @@ class _TaskFormPageState extends State<TaskFormPage> {
     usernameList.add(DropdownMenuItem<String>(
         child: Text('Select Creator'), value: 0.toString()));
 
-    _users.forEach((user) {
+    _users!.forEach((user) {
       usernameList.add(DropdownMenuItem<String>(
           child: Container(
             child: Text(
-              user.name,
+              user.name!,
             ),
           ),
           value: user.id.toString()));
@@ -433,7 +433,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
         items: usernameList,
         value: _creatorId,
         decoration: InputDecoration(helperText: 'Optional'),
-        onChanged: (newValue) {
+        onChanged: (dynamic newValue) {
           _creatorId = newValue;
         },
       ),
@@ -444,11 +444,11 @@ class _TaskFormPageState extends State<TaskFormPage> {
     List<DropdownMenuItem<String>> usernameList = [];
     usernameList.add(DropdownMenuItem<String>(
         child: Text('Select Owner'), value: 0.toString()));
-    _users.forEach((user) {
+    _users!.forEach((user) {
       usernameList.add(DropdownMenuItem<String>(
           child: Container(
             child: Text(
-              user.name,
+              user.name!,
             ),
           ),
           value: user.id.toString()));
@@ -468,7 +468,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
         items: usernameList,
         value: _ownerId,
         decoration: InputDecoration(helperText: 'Required'),
-        onChanged: (newValue) {
+        onChanged: (dynamic newValue) {
           _ownerId = newValue;
         },
       ),
@@ -479,11 +479,11 @@ class _TaskFormPageState extends State<TaskFormPage> {
     List<DropdownMenuItem<String>> columnList = [];
     columnList.add(DropdownMenuItem<String>(
         child: Text('Select Column'), value: 0.toString()));
-    _columns.forEach((column) {
+    _columns!.forEach((column) {
       columnList.add(DropdownMenuItem<String>(
           child: Container(
             child: Text(
-              column.title,
+              column.title!,
             ),
           ),
           value: column.id.toString()));
@@ -502,7 +502,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
         items: columnList,
         value: _columnId,
         decoration: InputDecoration(helperText: 'Optional'),
-        onChanged: (newValue) {
+        onChanged: (dynamic newValue) {
           _columnId = newValue;
         },
       ),
@@ -513,11 +513,11 @@ class _TaskFormPageState extends State<TaskFormPage> {
     List<DropdownMenuItem<String>> swimlaneList = [];
     // swimlaneList.add(DropdownMenuItem<String>(
     //     child: Text('Select Swimlane'), value: 0.toString()));
-    swimlanes.forEach((swimlane) {
+    swimlanes!.forEach((swimlane) {
       swimlaneList.add(DropdownMenuItem<String>(
           child: Container(
             child: Text(
-              swimlane.name,
+              swimlane.name!,
             ),
           ),
           value: swimlane.id.toString()));
@@ -534,9 +534,9 @@ class _TaskFormPageState extends State<TaskFormPage> {
           child: Icon(Icons.table_rows_rounded, color: Colors.blue),
         ),
         items: swimlaneList,
-        value: task.swimlaneId,
+        value: task!.swimlaneId,
         // decoration: InputDecoration(helperText: 'Optional'),
-        onChanged: (newValue) {
+        onChanged: (dynamic newValue) {
           _swimlaneId = newValue;
         },
       ),
@@ -583,7 +583,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
         ),
         style: ButtonStyle(elevation: MaterialStateProperty.all(5.0)),
         onPressed: () {
-          if (_formKey.currentState.validate() && _ownerId != '0') {
+          if (_formKey.currentState!.validate() && _ownerId != '0') {
             showLoaderDialog(context);
             _submitForm(context);
           } else {
@@ -602,7 +602,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
     if (createTask) {
       Map<String, dynamic> formData = {
         "title": _title,
-        "project_id": project.id,
+        "project_id": project!.id,
         "description": _description,
         "creator_id": _creatorId,
         "owner_id": _ownerId,
@@ -617,7 +617,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
         "score": _score,
         "tags": _tags,
       };
-      int newTaskId = await taskProvider.createTask(formData);
+      int newTaskId = (await taskProvider.createTask(formData))!;
       Navigator.pop(context);
       if (newTaskId > 0) {
         setState(() {
@@ -628,7 +628,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
       }
     } else {
       Map<String, dynamic> formData = {
-        "id": task.id,
+        "id": task!.id,
         "title": _title,
         "description": _description,
         "creator_id": _creatorId,
@@ -646,15 +646,15 @@ class _TaskFormPageState extends State<TaskFormPage> {
       };
 
       Map<String, dynamic> taskPosition = {
-        "project_id": task.projectId,
-        "task_id": task.id,
+        "project_id": task!.projectId,
+        "task_id": task!.id,
         "column_id": _columnId,
-        "position": task.position,
+        "position": task!.position,
         "swimlane_id": _swimlaneId
       };
 
       // print(formData);
-      bool result = await taskProvider.updateTask(formData);
+      bool result = (await taskProvider.updateTask(formData))!;
       await taskProvider.moveTaskPosition(taskPosition);
 
       Navigator.pop(context);
@@ -826,7 +826,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
         ],
         value: _priority,
         decoration: InputDecoration(labelText: 'Priority'),
-        onChanged: (newValue) {
+        onChanged: (dynamic newValue) {
           _priority = newValue;
         },
       ),
@@ -857,7 +857,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
           backgroundColor: Colors.blue,
           elevation: 4.0,
           label: Text(
-            tag.name,
+            tag.name!,
           ),
           selected: _tags.contains(tag.name) ? true : false,
           onSelected: (bool selected) {

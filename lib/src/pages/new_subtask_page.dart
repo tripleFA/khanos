@@ -17,11 +17,11 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final userProvider = new UserProvider();
   final subtaskProvider = new SubtaskProvider();
-  TaskModel task = new TaskModel();
-  List<UserModel> _users = [];
+  TaskModel? task = new TaskModel();
+  List<UserModel>? _users = [];
 
   String title = '';
-  String _userId = '0';
+  String? _userId = '0';
 
   TextEditingController _titleFieldController = new TextEditingController();
   TextEditingController _timeEstimatedFieldController =
@@ -36,10 +36,10 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map taskArgs = ModalRoute.of(context).settings.arguments;
+    final Map taskArgs = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
     task = taskArgs['task'];
     return Scaffold(
-      appBar: normalAppBar('New Subtask'),
+      appBar: normalAppBar('New Subtask') as PreferredSizeWidget?,
       body: _newSubtaskForm(),
     );
   }
@@ -52,7 +52,7 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
           Container(
             margin: EdgeInsets.only(top: 15, left: 20),
             child: Text(
-              'For Task #${task.id}',
+              'For Task #${task!.id}',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -94,7 +94,7 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
 
   Widget _userSelect() {
     return FutureBuilder(
-      future: ProjectProvider().getProjectUsers(int.parse(task.projectId)),
+      future: ProjectProvider().getProjectUsers(int.parse(task!.projectId!)),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         List<DropdownMenuItem<String>> usernameList = [];
         if (snapshot.hasData) {
@@ -105,11 +105,11 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
           usernameList.add(DropdownMenuItem<String>(
               child: Text('Loading..'), value: 0.toString()));
         }
-        _users.forEach((user) {
+        _users!.forEach((user) {
           usernameList.add(DropdownMenuItem<String>(
               child: Container(
                 child: Text(
-                  user.name,
+                  user.name!,
                 ),
               ),
               value: user.id.toString()));
@@ -128,7 +128,7 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
             items: usernameList,
             value: _userId,
             decoration: InputDecoration(helperText: 'Optional'),
-            onChanged: (newValue) {
+            onChanged: (dynamic newValue) {
               _userId = newValue;
             },
           ),
@@ -170,7 +170,7 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
   _processSubmission() {
     if (_disabledButton != true) {
       _disabledButton = true;
-      if (_formKey.currentState.validate()) {
+      if (_formKey.currentState!.validate()) {
         _createSubtask(context);
       } else {
         mostrarAlerta(context, 'Please fill required Fields');
@@ -181,10 +181,10 @@ class _NewSubtaskPageState extends State<NewSubtaskPage> {
 
   _createSubtask(BuildContext context) async {
     final String _subtaskTitle = _titleFieldController.text;
-    final String _subtaskUserId = _userId;
+    final String _subtaskUserId = _userId!;
     final String _subtaskTimeEstimated = _timeEstimatedFieldController.text;
 
-    int newSubtaskId = await subtaskProvider.createSubtask(int.parse(task.id),
+    int newSubtaskId = await subtaskProvider.createSubtask(int.parse(task!.id!),
         _subtaskTitle, int.parse(_subtaskUserId), _subtaskTimeEstimated);
 
     if (newSubtaskId > 0) {

@@ -31,7 +31,7 @@ class TaskProvider {
 
     final List<TaskModel> tasks = [];
 
-    final List<dynamic> results = decodedData['result'];
+    final List<dynamic>? results = decodedData['result'];
 
     if (decodedData == null) return [];
 
@@ -40,7 +40,7 @@ class TaskProvider {
       return Future.error(decodedData['error']);
     }
 
-    results.forEach((task) {
+    results!.forEach((task) {
       final taskTemp = TaskModel.fromJson(task);
       tasks.add(taskTemp);
     });
@@ -71,7 +71,7 @@ class TaskProvider {
 
     final List<TaskModel> tasks = [];
 
-    final List<dynamic> results = decodedData['result'];
+    final List<dynamic>? results = decodedData['result'];
 
     if (decodedData == null) return [];
 
@@ -80,7 +80,7 @@ class TaskProvider {
       return Future.error(decodedData['error']);
     }
 
-    results.forEach((task) {
+    results!.forEach((task) {
       final taskTemp = TaskModel.fromJson(task);
       tasks.add(taskTemp);
     });
@@ -111,7 +111,7 @@ class TaskProvider {
 
     final List<TaskModel> tasks = [];
 
-    final List<dynamic> results = decodedData['result'];
+    final List<dynamic>? results = decodedData['result'];
     if (decodedData == null) return [];
 
     // Check for errors
@@ -119,14 +119,14 @@ class TaskProvider {
       return Future.error(decodedData['error']);
     }
 
-    results.forEach((task) {
+    results!.forEach((task) {
       final taskTemp = TaskModel.fromJson(task);
       tasks.add(taskTemp);
     });
     return tasks;
   }
 
-  Future<TaskModel> getTask(int taskId) async {
+  Future<TaskModel?> getTask(int? taskId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "getTask",
@@ -161,7 +161,7 @@ class TaskProvider {
     return task;
   }
 
-  Future<int> createTask(Map<String, dynamic> args) async {
+  Future<int?> createTask(Map<String, dynamic> args) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "createTask",
@@ -189,7 +189,7 @@ class TaskProvider {
     return (result != false) ? result : 0;
   }
 
-  Future<bool> updateTask(Map<String, dynamic> args) async {
+  Future<bool?> updateTask(Map<String, dynamic> args) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "updateTask",
@@ -224,7 +224,7 @@ class TaskProvider {
     return result;
   }
 
-  Future<bool> closeTask(int taskId) async {
+  Future<bool?> closeTask(int taskId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "closeTask",
@@ -259,7 +259,7 @@ class TaskProvider {
     return result;
   }
 
-  Future<bool> moveTaskPosition(Map<String, dynamic> args) async {
+  Future<bool?> moveTaskPosition(Map<String, dynamic> args) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "moveTaskPosition",
@@ -294,7 +294,7 @@ class TaskProvider {
     return result;
   }
 
-  Future<bool> removeTask(int taskId) async {
+  Future<bool?> removeTask(int taskId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "removeTask",

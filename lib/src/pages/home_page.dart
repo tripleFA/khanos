@@ -29,9 +29,9 @@ class _HomePageState extends State<HomePage> {
   final columnProvider = new ColumnProvider();
   final userProvider = new UserProvider();
   final authProvider = new AuthProvider();
-  bool _darkTheme;
-  ThemeData currentThemeData;
-  Map<String, dynamic> myProfileInfo;
+  bool? _darkTheme;
+  late ThemeData currentThemeData;
+  Map<String, dynamic>? myProfileInfo;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  int projectsAmount;
+  int? projectsAmount;
   @override
   Widget build(BuildContext context) {
     if (_prefs.newInstall == true) {
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
     currentThemeData =
         _darkTheme == true ? ThemeData.dark() : ThemeData.light();
     return Scaffold(
-      appBar: normalAppBar('Khanos'),
+      appBar: normalAppBar('Khanos') as PreferredSizeWidget?,
       // body: projectList(context),
       body: _children[_currentIndex],
       drawer: _homeDrawer(),
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
             Future.wait([projectProvider.getProjects(), authProvider.getMe()]),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            processApiError(snapshot.error);
+            processApiError(snapshot.error as Map<String, dynamic>);
             if (_prefs.authFlag != true) {
               final SnackBar _snackBar = SnackBar(
                 content: const Text('Login Failed!'),
@@ -160,13 +160,13 @@ class _HomePageState extends State<HomePage> {
               return Container(
                   width: double.infinity,
                   padding: EdgeInsets.only(top: 20.0),
-                  child: errorPage(snapshot.error));
+                  child: errorPage(snapshot.error as Map<String, dynamic>));
             }
           }
           if (snapshot.hasData) {
             final projects = snapshot.data[0];
             myProfileInfo = snapshot.data[1];
-            _prefs.appRole = myProfileInfo['role'];
+            _prefs.appRole = myProfileInfo!['role'];
             projectsAmount = projects.length;
             return Column(
               children: [
@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                           return _projectElement('someTitle', 'description..',"0");
                         }),
                     baseColor: CustomColors.BlueDark,
-                    highlightColor: Colors.lightBlue[200],
+                    highlightColor: Colors.lightBlue[200]!,
                   ),
                 ),
               ],
@@ -245,7 +245,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget _projectElement(String title, String description, String isPrivate) {
+  Widget _projectElement(String title, String? description, String? isPrivate) {
     description = description != null ? description : 'No description';
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
@@ -296,7 +296,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _removeProject(String projectId) async {
-    bool result = await projectProvider.removeProject(int.parse(projectId));
+    bool result = (await projectProvider.removeProject(int.parse(projectId)))!;
     Navigator.pop(context);
     if (result) {
       setState(() {});
@@ -358,7 +358,7 @@ class _HomePageState extends State<HomePage> {
             ]),
             SwitchListTile(
               activeColor: Colors.blue,
-              value: _darkTheme,
+              value: _darkTheme!,
               title: Text('Dark Mode'),
               onChanged: (value) {
                 _themeProvider.setTheme(value ? darkTheme : lightTheme);

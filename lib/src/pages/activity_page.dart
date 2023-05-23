@@ -12,12 +12,12 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  bool _darkTheme;
-  ThemeData currentThemeData;
-  List<ActivityModel> activities;
+  bool? _darkTheme;
+  ThemeData? currentThemeData;
+  List<ActivityModel>? activities;
   UserProvider userProvider = new UserProvider();
   final _prefs = new UserPreferences();
-  Map<String, dynamic> error;
+  Map<String, dynamic>? error;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _ActivityPageState extends State<ActivityPage> {
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: activities.length,
+                    itemCount: activities!.length,
                     itemBuilder: (BuildContext context, int i) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,11 +67,11 @@ class _ActivityPageState extends State<ActivityPage> {
                                   shape: BoxShape.circle,
                                   // color: Colors.blue,
                                 ),
-                                child: _getEventIcon(activities[i].eventName),
+                                child: _getEventIcon(activities![i].eventName),
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.70,
-                                child: Text(activities[i].eventTitle,
+                                child: Text(activities![i].eventTitle!,
                                     overflow: TextOverflow.clip),
                               ),
                             ],
@@ -132,7 +132,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           child: Shimmer.fromColors(
                               child: Icon(Icons.event, size: 30),
                               baseColor: CustomColors.BlueDark,
-                              highlightColor: Colors.lightBlue[200]),
+                              highlightColor: Colors.lightBlue[200]!),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.70,
@@ -146,7 +146,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                 ),
                               ),
                               baseColor: CustomColors.BlueDark,
-                              highlightColor: Colors.lightBlue[200]),
+                              highlightColor: Colors.lightBlue[200]!),
                         ),
                       ],
                     ),
@@ -160,7 +160,7 @@ class _ActivityPageState extends State<ActivityPage> {
                               dashThickness: 2,
                               dashColor: Colors.grey),
                           baseColor: CustomColors.BlueDark,
-                          highlightColor: Colors.lightBlue[200]),
+                          highlightColor: Colors.lightBlue[200]!),
                     ),
                   ],
                 );
@@ -170,7 +170,7 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 
-  _getEventIcon(String eventName) {
+  _getEventIcon(String? eventName) {
     IconData eventIcon = Icons.event;
     switch (eventName) {
       case "task.create":

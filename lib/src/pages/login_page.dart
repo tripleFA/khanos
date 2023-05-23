@@ -17,8 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   String url = '';
   String username = '';
   String password = '';
-  ThemeData currentThemeData;
-  bool _darkTheme;
+  late ThemeData currentThemeData;
+  bool? _darkTheme;
   // TextEditingController _urlController = new TextEditingController();
   // TextEditingController _usernameController = new TextEditingController();
   // TextEditingController _passwordController = new TextEditingController();
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text('Login'),
             ),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
+              if (_formKey.currentState!.validate()) {
                 showLoaderDialog(context);
                 _login(context);
               } else {

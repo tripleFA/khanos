@@ -24,21 +24,21 @@ class ProjectPage extends StatefulWidget {
 }
 
 class _ProjectPageState extends State<ProjectPage> {
-  LongPressStartDetails details;
-  bool _darkTheme;
-  ThemeData currentThemeData;
+  LongPressStartDetails? details;
+  bool? _darkTheme;
+  late ThemeData currentThemeData;
   final _prefs = new UserPreferences();
-  Map<String, dynamic> error;
-  ProjectModel project = new ProjectModel();
+  Map<String, dynamic>? error;
+  ProjectModel? project = new ProjectModel();
   Map<String, ColumnModel> projectColumns = {};
   final projectProvider = new ProjectProvider();
   final taskProvider = new TaskProvider();
   final columnProvider = new ColumnProvider();
   final userProvider = new UserProvider();
-  String userRole = '';
+  String? userRole = '';
 
-  Widget floatingAction;
-  List<UserModel> users;
+  Widget? floatingAction;
+  List<UserModel>? users;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _ProjectPageState extends State<ProjectPage> {
   Widget build(BuildContext context) {
     currentThemeData =
         _darkTheme == true ? ThemeData.dark() : ThemeData.light();
-    final Map projectArgs = ModalRoute.of(context).settings.arguments;
+    final Map projectArgs = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
 
     if (projectArgs['project'] != null) {
       project = projectArgs['project'];
@@ -63,16 +63,16 @@ class _ProjectPageState extends State<ProjectPage> {
     }
     return FutureBuilder(
         future: Future.wait([
-          taskProvider.getTasks(int.parse(project.id), 1),
-          columnProvider.getColumns(project.id),
-          projectProvider.getProjectUsers(int.parse(project.id)),
+          taskProvider.getTasks(int.parse(project!.id!), 1),
+          columnProvider.getColumns(project!.id),
+          projectProvider.getProjectUsers(int.parse(project!.id!)),
           projectProvider.getProjectUserRole(
-              int.parse(project.id), _prefs.userId)
+              int.parse(project!.id!), _prefs.userId)
         ]),
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.hasError) {
-            processApiError(snapshot.error);
-            error = snapshot.error;
+            processApiError(snapshot.error as Map<String, dynamic>);
+            error = snapshot.error as Map<String, dynamic>?;
             if (_prefs.authFlag != true) {
               final SnackBar _snackBar = SnackBar(
                 content: const Text('Login Failed!'),
@@ -90,21 +90,21 @@ class _ProjectPageState extends State<ProjectPage> {
               run();
             } else {
               return Scaffold(
-                  appBar: normalAppBar(project.name),
+                  appBar: normalAppBar(project!.name!) as PreferredSizeWidget?,
                   body: Container(
                       width: double.infinity,
                       padding: EdgeInsets.only(top: 20.0),
-                      child: errorPage(snapshot.error)));
+                      child: errorPage(snapshot.error as Map<String, dynamic>)));
             }
           }
           if (snapshot.hasData) {
-            userRole = snapshot.data[3];
-            final List<TaskModel> tasks = snapshot.data[0];
-            final List<ColumnModel> columns = snapshot.data[1];
-            users = snapshot.data[2];
-            tasks.sort((a, b) => a.id.compareTo(b.id));
+            userRole = snapshot.data![3];
+            final List<TaskModel> tasks = snapshot.data![0];
+            final List<ColumnModel>? columns = snapshot.data![1];
+            users = snapshot.data![2];
+            tasks.sort((a, b) => a.id!.compareTo(b.id!));
             return Scaffold(
-              appBar: normalAppBar(project.name),
+              appBar: normalAppBar(project!.name!) as PreferredSizeWidget?,
               body: Container(
                   width: double.infinity,
                   padding: EdgeInsets.only(top: 20.0),
@@ -144,7 +144,7 @@ class _ProjectPageState extends State<ProjectPage> {
             );
           } else {
             return Scaffold(
-              appBar: normalAppBar(project.name),
+              appBar: normalAppBar(project!.name!) as PreferredSizeWidget?,
               body: Container(
                   width: double.infinity,
                   child: Column(
@@ -163,7 +163,7 @@ class _ProjectPageState extends State<ProjectPage> {
                                 );
                               }),
                           baseColor: CustomColors.BlueDark,
-                          highlightColor: Colors.lightBlue[200],
+                          highlightColor: Colors.lightBlue[200]!,
                         ),
                       )
                     ],
@@ -173,7 +173,7 @@ class _ProjectPageState extends State<ProjectPage> {
         });
   }
 
-  Widget _projectInfo(List<TaskModel> tasks, List<ColumnModel> columns) {
+  Widget _projectInfo(List<TaskModel> tasks, List<ColumnModel>? columns) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -184,8 +184,8 @@ class _ProjectPageState extends State<ProjectPage> {
               Text('Description',
                   style: TextStyle(fontSize: 20.0), textAlign: TextAlign.left),
               SizedBox(height: 10.0),
-              project.description != null
-                  ? Text(project.description, textAlign: TextAlign.left)
+              project!.description != null
+                  ? Text(project!.description!, textAlign: TextAlign.left)
                   : Text('No Description', textAlign: TextAlign.left),
               SizedBox(height: 20.0),
               Text('Tasks', style: TextStyle(fontSize: 20.0)),
@@ -198,7 +198,7 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  Widget _taskList(List<TaskModel> tasks, List<ColumnModel> columns) {
+  Widget _taskList(List<TaskModel> tasks, List<ColumnModel>? columns) {
     if (tasks.length > 0) {
       return Expanded(
         child: ListView.builder(
@@ -223,13 +223,13 @@ class _ProjectPageState extends State<ProjectPage> {
                   actionPane: SlidableDrawerActionPane(),
                   child: _taskElement(
                       getStringDateTimeFromEpoch(
-                          "dd/MM/yy", tasks[i].dateModification),
-                      tasks[i].title,
-                      TaskModel().getTaskColor(tasks[i].colorId),
-                      columns
+                          "dd/MM/yy", tasks[i].dateModification!),
+                      tasks[i].title!,
+                      TaskModel().getTaskColor(tasks[i].colorId)!,
+                      columns!
                           .firstWhere(
                               (element) => element.id == tasks[i].columnId)
-                          .title,
+                          .title!,
                       tasks[i].ownerId),
                   secondaryActions: <Widget>[
                     SlideAction(
@@ -246,7 +246,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       ),
                       onTap: () {
                         showLoaderDialog(context);
-                        _closeTask(tasks[i].id);
+                        _closeTask(tasks[i].id!);
                       },
                     ),
                     SlideAction(
@@ -263,7 +263,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       ),
                       onTap: () {
                         showLoaderDialog(context);
-                        _removeTask(tasks[i].id);
+                        _removeTask(tasks[i].id!);
                       },
                     ),
                   ],
@@ -302,15 +302,15 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   Widget _taskElement(String timeUpdated, String title, Color color,
-      String columnTitle, String ownerId) {
+      String columnTitle, String? ownerId) {
     Widget avatar;
 
     if (ownerId != '0') {
-      UserModel owner = users.firstWhere((user) => user.id == ownerId);
+      UserModel owner = users!.firstWhere((user) => user.id == ownerId);
       avatar = (owner.avatarPath != null)
           ? FadeInImage(
               image:
-                  NetworkImage(getAvatarUrl(ownerId, owner.avatarPath, '40')),
+                  NetworkImage(getAvatarUrl(ownerId, owner.avatarPath!, '40')),
               placeholder: AssetImage('assets/images/icon-user.png'),
             )
           : Padding(
@@ -377,7 +377,7 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   void _removeTask(String taskId) async {
-    bool result = await taskProvider.removeTask(int.parse(taskId));
+    bool result = (await taskProvider.removeTask(int.parse(taskId)))!;
     Navigator.pop(context);
     if (result) {
       setState(() {});
@@ -420,7 +420,7 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   void _closeTask(String taskId) async {
-    bool result = await taskProvider.closeTask(int.parse(taskId));
+    bool result = (await taskProvider.closeTask(int.parse(taskId)))!;
     Navigator.pop(context);
     if (result) {
       setState(() {});

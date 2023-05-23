@@ -20,13 +20,13 @@ class CommentModel {
     this.name,
   });
 
-  String id;
-  String taskId;
-  String userId;
-  String dateCreation;
-  String comment;
-  String username;
-  String name;
+  String? id;
+  String? taskId;
+  String? userId;
+  String? dateCreation;
+  String? comment;
+  String? username;
+  String? name;
 
   factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
         id: json["id"].toString(),

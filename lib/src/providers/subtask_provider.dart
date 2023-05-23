@@ -46,16 +46,16 @@ class SubtaskProvider {
     return subtasks;
   }
 
-  Future<bool> processSubtask(SubtaskModel subtask) async {
-    String newSubTaskStatus;
+  Future<bool?> processSubtask(SubtaskModel subtask) async {
+    String? newSubTaskStatus;
     switch (subtask.status) {
       case "0":
         newSubTaskStatus = "1";
-        await setSubtaskStartTime(int.parse(subtask.id));
+        await setSubtaskStartTime(int.parse(subtask.id!));
         break;
       case "1":
         newSubTaskStatus = "2";
-        await setSubtaskEndTime(int.parse(subtask.id));
+        await setSubtaskEndTime(int.parse(subtask.id!));
         break;
       case "2":
         newSubTaskStatus = "0";
@@ -95,7 +95,7 @@ class SubtaskProvider {
     return result;
   }
 
-  Future<bool> setSubtaskStartTime(int subtaskId, [int userId]) async {
+  Future<bool?> setSubtaskStartTime(int subtaskId, [int? userId]) async {
     List args = [subtaskId];
 
     if (userId != null) {
@@ -133,7 +133,7 @@ class SubtaskProvider {
     return result;
   }
 
-  Future<bool> setSubtaskEndTime(int subtaskId, [int userId]) async {
+  Future<bool?> setSubtaskEndTime(int subtaskId, [int? userId]) async {
     List args = [subtaskId];
 
     if (userId != null) {
@@ -171,7 +171,7 @@ class SubtaskProvider {
     return result;
   }
 
-  Future<double> getSubtaskTimeSpent(int subtaskId, [int userId]) async {
+  Future<double> getSubtaskTimeSpent(int subtaskId, [int? userId]) async {
     List args = [subtaskId];
 
     if (userId != null) {
@@ -247,7 +247,7 @@ class SubtaskProvider {
     return (result > 0) ? result : 0;
   }
 
-  Future<bool> removeSubtask(int subtaskId) async {
+  Future<bool?> removeSubtask(int subtaskId) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
       "method": "removeSubtask",
@@ -279,7 +279,7 @@ class SubtaskProvider {
     return result;
   }
 
-  Future<bool> updateSubtask(
+  Future<bool?> updateSubtask(
       SubtaskModel subtask, Map<String, dynamic> args) async {
     final Map<String, dynamic> parameters = {
       "jsonrpc": "2.0",
@@ -314,22 +314,22 @@ class SubtaskProvider {
 
   Future<bool> updateSubtaskPosition(
       SubtaskModel movingSubtask, SubtaskModel affectedSubtask) async {
-    String oldPosition = movingSubtask.position;
-    String newPosition = affectedSubtask.position;
-    bool result1 = false;
-    bool result2 = false;
+    String? oldPosition = movingSubtask.position;
+    String? newPosition = affectedSubtask.position;
+    bool? result1 = false;
+    bool? result2 = false;
 
-    result1 = await this.updateSubtask(affectedSubtask, {
+    result1 = (await this.updateSubtask(affectedSubtask, {
       'id': affectedSubtask.id,
       'task_id': affectedSubtask.taskId,
       'position': oldPosition
-    });
+    }))!;
 
-    result2 = await this.updateSubtask(movingSubtask, {
+    result2 = (await this.updateSubtask(movingSubtask, {
       'id': movingSubtask.id,
       'task_id': movingSubtask.taskId,
       'position': newPosition
-    });
+    }))!;
 
     if (result1 && result2) {
       return true;

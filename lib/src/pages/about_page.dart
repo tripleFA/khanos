@@ -6,7 +6,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: normalAppBar('About Khanos'),
+      appBar: normalAppBar('About Khanos') as PreferredSizeWidget?,
       body: _showAboutInfo(context),
     );
   }

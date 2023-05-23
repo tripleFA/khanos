@@ -19,13 +19,13 @@ class UserPreferences {
 
   UserPreferences._internal();
 
-  SharedPreferences _prefs;
+  late SharedPreferences _prefs;
 
   initPrefs() async {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  get endpoint {
+  String get endpoint {
     return _prefs.getString('endpoint') ?? '';
   }
 
@@ -33,7 +33,7 @@ class UserPreferences {
     _prefs.setString('endpoint', value);
   }
 
-    get url {
+  String get url {
     return _prefs.getString('url') ?? '';
   }
 
@@ -41,7 +41,7 @@ class UserPreferences {
     _prefs.setString('url', value);
   }
 
-  get username {
+  String get username {
     return _prefs.getString('username') ?? '';
   }
 
@@ -49,7 +49,7 @@ class UserPreferences {
     _prefs.setString('username', value);
   }
 
-  get userId {
+  int get userId {
     return _prefs.getInt('userId') ?? 0;
   }
 
@@ -57,7 +57,7 @@ class UserPreferences {
     _prefs.setInt('userId', id);
   }
 
-  get password {
+  String get password {
     return _prefs.getString('password') ?? '';
   }
 
@@ -65,7 +65,7 @@ class UserPreferences {
     _prefs.setString('password', value);
   }
 
-  get authFlag {
+  bool get authFlag {
     return _prefs.getBool('authFlag') ?? false;
   }
 
@@ -73,7 +73,7 @@ class UserPreferences {
     _prefs.setBool('authFlag', value);
   }
 
-  get darkTheme {
+  bool get darkTheme {
     return _prefs.getBool('darkTheme') ?? false;
   }
 
@@ -81,7 +81,7 @@ class UserPreferences {
     _prefs.setBool('darkTheme', value);
   }
 
-  get newInstall {
+  bool get newInstall {
     return _prefs.getBool('newInstall') ?? false;
   }
 
@@ -89,15 +89,15 @@ class UserPreferences {
     _prefs.setBool('newInstall', value);
   }
 
-  get firstTime {
-    return _prefs.getBool('firstTime');
+  bool get firstTime {
+    return _prefs.getBool('firstTime') ?? true;
   }
 
   set firstTime(bool value) {
     _prefs.setBool('firstTime', value);
   }
 
-  get buildNumber {
+  String get buildNumber {
     return _prefs.getString('buildNumber') ?? '';
   }
 
@@ -105,7 +105,7 @@ class UserPreferences {
     _prefs.setString('buildNumber', value);
   }
 
-  get appRole {
+  String get appRole {
     return _prefs.getString('appRole') ?? '';
   }
 

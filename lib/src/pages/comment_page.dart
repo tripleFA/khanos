@@ -23,16 +23,16 @@ class _CommentPageState extends State<CommentPage> {
   TextEditingController _commentFieldController = new TextEditingController();
   ScrollController _scrollController = ScrollController();
   String newComment = '';
-  String userRole = '';
+  String? userRole = '';
   final _prefs = new UserPreferences();
-  TaskModel task = new TaskModel();
-  Map<String, dynamic> error;
+  TaskModel? task = new TaskModel();
+  Map<String, dynamic>? error;
   final taskProvider = new TaskProvider();
   final commentProvider = new CommentProvider();
   final userProvider = new UserProvider();
-  bool _darkTheme;
-  ThemeData currentThemeData;
-  List<UserModel> users;
+  bool? _darkTheme;
+  late ThemeData currentThemeData;
+  List<UserModel>? users;
 
   @override
   void initState() {
@@ -44,13 +44,13 @@ class _CommentPageState extends State<CommentPage> {
   Widget build(BuildContext context) {
     currentThemeData =
         _darkTheme == true ? ThemeData.dark() : ThemeData.light();
-    final Map commentArgs = ModalRoute.of(context).settings.arguments;
+    final Map commentArgs = ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
 
     task = commentArgs['task'];
     userRole = commentArgs['userRole'];
 
     return Scaffold(
-      appBar: normalAppBar(task.title),
+      appBar: normalAppBar(task!.title!) as PreferredSizeWidget?,
       body: _commentBodyPage(),
     );
   }
@@ -58,13 +58,13 @@ class _CommentPageState extends State<CommentPage> {
   Widget _commentBodyPage() {
     return FutureBuilder(
       future: Future.wait([
-        commentProvider.getAllComments(int.parse(task.id)),
-        ProjectProvider().getProjectUsers(int.parse(task.projectId)),
+        commentProvider.getAllComments(int.parse(task!.id!)),
+        ProjectProvider().getProjectUsers(int.parse(task!.projectId!)),
       ]),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
-          processApiError(snapshot.error);
-          error = snapshot.error;
+          processApiError(snapshot.error as Map<String, dynamic>);
+          error = snapshot.error as Map<String, dynamic>?;
           if (_prefs.authFlag != true) {
             final SnackBar _snackBar = SnackBar(
               content: const Text('Login Failed!'),
@@ -82,11 +82,11 @@ class _CommentPageState extends State<CommentPage> {
             run();
           } else {
             return Scaffold(
-                appBar: normalAppBar(task.title),
+                appBar: normalAppBar(task!.title!) as PreferredSizeWidget?,
                 body: Container(
                     width: double.infinity,
                     padding: EdgeInsets.only(top: 20.0),
-                    child: errorPage(snapshot.error)));
+                    child: errorPage(snapshot.error as Map<String, dynamic>)));
           }
         }
         if (snapshot.hasData) {
@@ -109,12 +109,12 @@ class _CommentPageState extends State<CommentPage> {
               itemCount: comments.length,
               itemBuilder: (BuildContext context, int i) {
                 return _commentCard(
-                    comments[i].username,
-                    comments[i].comment,
-                    comments[i].dateCreation,
+                    comments[i].username!,
+                    comments[i].comment!,
+                    comments[i].dateCreation!,
                     comments[i].id,
-                    comments[i].userId,
-                    users.firstWhere((user) => user.id == comments[i].userId));
+                    comments[i].userId!,
+                    users!.firstWhere((user) => user.id == comments[i].userId));
               }),
         ),
         (userRole != 'project-viewer') ? Container(
@@ -190,8 +190,8 @@ class _CommentPageState extends State<CommentPage> {
                 // Second child is button
                 Icon(Icons.send, color: Colors.blue),
               ])),
-          baseColor: Colors.grey[600],
-          highlightColor: Colors.grey[200],
+          baseColor: Colors.grey[600]!,
+          highlightColor: Colors.grey[200]!,
         )
       ],
     );
@@ -222,8 +222,8 @@ class _CommentPageState extends State<CommentPage> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
-                  baseColor: Colors.grey[600],
-                  highlightColor: Colors.grey[500],
+                  baseColor: Colors.grey[600]!,
+                  highlightColor: Colors.grey[500]!,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,16 +234,16 @@ class _CommentPageState extends State<CommentPage> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15.0),
                       ),
-                      baseColor: Colors.grey[600],
-                      highlightColor: Colors.grey[500],
+                      baseColor: Colors.grey[600]!,
+                      highlightColor: Colors.grey[500]!,
                     ),
                     Shimmer.fromColors(
                       child: Text(
                         getTimeAgo('123423335'),
                         style: currentThemeData.textTheme.caption,
                       ),
-                      baseColor: Colors.grey[600],
-                      highlightColor: Colors.grey[500],
+                      baseColor: Colors.grey[600]!,
+                      highlightColor: Colors.grey[500]!,
                     ),
                   ],
                 ),
@@ -253,8 +253,8 @@ class _CommentPageState extends State<CommentPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(Icons.more_vert),
                   ),
-                  baseColor: Colors.grey[600],
-                  highlightColor: Colors.grey[500],
+                  baseColor: Colors.grey[600]!,
+                  highlightColor: Colors.grey[500]!,
                 ),
               ],
             ),
@@ -268,8 +268,8 @@ class _CommentPageState extends State<CommentPage> {
                     textAlign: TextAlign.start,
                     style: currentThemeData.textTheme.bodyText1,
                   ),
-                  baseColor: Colors.grey[600],
-                  highlightColor: Colors.grey[500],
+                  baseColor: Colors.grey[600]!,
+                  highlightColor: Colors.grey[500]!,
                 ),
               ),
             ),
@@ -280,10 +280,10 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   _commentCard(String username, String comment, String dateCreated,
-      String commentId, String userId, UserModel user) {
+      String? commentId, String userId, UserModel user) {
     Widget avatar = (user.avatarPath != null)
         ? FadeInImage(
-            image: NetworkImage(getAvatarUrl(userId, user.avatarPath, '40')),
+            image: NetworkImage(getAvatarUrl(userId, user.avatarPath!, '40')),
             placeholder: AssetImage('assets/images/icon-user.png'),
           )
         : Padding(
@@ -328,13 +328,13 @@ class _CommentPageState extends State<CommentPage> {
                 Spacer(),
                 (int.parse(userId) == _prefs.userId)
                     ? PopupMenuButton(
-                        onSelected: (value) {
+                        onSelected: (dynamic value) {
                           switch (value) {
                             case "edit":
                               _editCommentDialog(context, commentId, comment);
                               break;
                             case "remove":
-                              _removeComment(commentId);
+                              _removeComment(commentId!);
                               break;
                             default:
                           }
@@ -378,17 +378,17 @@ class _CommentPageState extends State<CommentPage> {
   void _addComment(BuildContext context) async {
     FocusScope.of(context).unfocus();
     if (newComment.isNotEmpty) {
-      int newCommentId = 0;
+      int? newCommentId = 0;
 
       try {
-        newCommentId = await commentProvider.createComment({
-          "task_id": task.id,
+        newCommentId = (await commentProvider.createComment({
+          "task_id": task!.id,
           "user_id": _prefs.userId,
           "content": newComment
-        });
+        }))!;
       } catch (e) {
-        processApiError(e);
-        error = e;
+        processApiError(e as Map<String, dynamic>);
+        error = e as Map<String, dynamic>;
         if (_prefs.authFlag != true) {
           final SnackBar _snackBar = SnackBar(
             content: const Text('Login Failed!'),
@@ -427,12 +427,12 @@ class _CommentPageState extends State<CommentPage> {
 
   _removeComment(String commentId) async {
     showLoaderDialog(context);
-    bool result = false;
+    bool? result = false;
     try {
-      result = await commentProvider.removeComment(int.parse(commentId));
+      result = (await commentProvider.removeComment(int.parse(commentId)))!;
     } catch (e) {
-      processApiError(e);
-      error = e;
+      processApiError(e as Map<String, dynamic>);
+      error = e as Map<String, dynamic>;
       if (_prefs.authFlag != true) {
         final SnackBar _snackBar = SnackBar(
           content: const Text('Login Failed!'),
@@ -451,7 +451,7 @@ class _CommentPageState extends State<CommentPage> {
       }
     }
 
-    if (result) {
+    if (result!) {
       setState(() {
         Navigator.pop(context);
       });
@@ -461,7 +461,7 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   void _editCommentDialog(
-      BuildContext context, String commentId, String comment) {
+      BuildContext context, String? commentId, String comment) {
     String newEditedComment = comment;
     showDialog(
       context: context,

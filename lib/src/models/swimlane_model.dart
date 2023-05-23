@@ -18,11 +18,11 @@ class SwimlaneModel {
     this.projectId,
   });
 
-  String id;
-  String name;
-  String position;
-  String isActive;
-  String projectId;
+  String? id;
+  String? name;
+  String? position;
+  String? isActive;
+  String? projectId;
 
   factory SwimlaneModel.fromJson(Map<String, dynamic> json) => SwimlaneModel(
         id: json["id"].toString(),

@@ -18,11 +18,11 @@ class ColumnModel {
     this.taskLimit,
   });
 
-  String id;
-  String title;
-  String position;
-  String projectId;
-  String taskLimit;
+  String? id;
+  String? title;
+  String? position;
+  String? projectId;
+  String? taskLimit;
 
   factory ColumnModel.fromJson(Map<String, dynamic> json) => ColumnModel(
         id: json["id"].toString(),

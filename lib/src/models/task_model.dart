@@ -45,7 +45,7 @@ class TaskModel {
     this.url,
   });
 
-  Map<String, Color> taskColors = {
+  Map<String, Color?> taskColors = {
     "yellow": Colors.yellow[600],
     "blue": Colors.blue,
     "green": Colors.green,
@@ -100,43 +100,43 @@ class TaskModel {
     Colors.amber,
   ];
 
-  String id;
-  String title;
-  String description;
-  String dateCreation;
-  String colorId;
-  String projectId;
-  String columnId;
-  String ownerId;
-  String position;
-  String isActive;
-  String dateCompleted;
-  String score;
-  String dateDue;
-  String categoryId;
-  String creatorId;
-  String dateModification;
-  String reference;
-  String dateStarted;
-  String timeSpent;
-  String timeEstimated;
-  String swimlaneId;
-  String dateMoved;
-  String recurrenceStatus;
-  String recurrenceTrigger;
-  String recurrenceFactor;
-  String recurrenceTimeframe;
-  String recurrenceBasedate;
-  String recurrenceParent;
-  String recurrenceChild;
-  String priority;
-  String url;
+  String? id;
+  String? title;
+  String? description;
+  String? dateCreation;
+  String? colorId;
+  String? projectId;
+  String? columnId;
+  String? ownerId;
+  String? position;
+  String? isActive;
+  String? dateCompleted;
+  String? score;
+  String? dateDue;
+  String? categoryId;
+  String? creatorId;
+  String? dateModification;
+  String? reference;
+  String? dateStarted;
+  String? timeSpent;
+  String? timeEstimated;
+  String? swimlaneId;
+  String? dateMoved;
+  String? recurrenceStatus;
+  String? recurrenceTrigger;
+  String? recurrenceFactor;
+  String? recurrenceTimeframe;
+  String? recurrenceBasedate;
+  String? recurrenceParent;
+  String? recurrenceChild;
+  String? priority;
+  String? url;
 
-  Color getTaskColor(String colorName) {
+  Color? getTaskColor(String? colorName) {
     return taskColors[colorName];
   }
 
-  String getTaskColorName(Color color) {
+  String? getTaskColorName(Color? color) {
     return taskColorsName[color];
   }
 

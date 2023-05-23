@@ -1,8 +1,8 @@
 import 'package:khanos/src/models/task_model.dart';
 
 class BoardItemObject {
-  String title;
-  TaskModel taskContent;
+  String? title;
+  TaskModel? taskContent;
 
   BoardItemObject({this.title, this.taskContent}) {
     if (this.title == null) {

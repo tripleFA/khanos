@@ -21,14 +21,14 @@ class SubtaskModel {
     this.position,
   });
 
-  String id;
-  String title;
-  String status;
-  String timeEstimated;
-  String timeSpent;
-  String taskId;
-  String userId;
-  String position;
+  String? id;
+  String? title;
+  String? status;
+  String? timeEstimated;
+  String? timeSpent;
+  String? taskId;
+  String? userId;
+  String? position;
 
   factory SubtaskModel.fromJson(Map<String, dynamic> json) => SubtaskModel(
         id: json["id"],

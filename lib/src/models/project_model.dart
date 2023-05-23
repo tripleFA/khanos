@@ -34,27 +34,27 @@ class ProjectModel {
     this.url,
   });
 
-  String id;
-  String name;
-  String isActive;
-  String token;
-  String lastModified;
-  String isPublic;
-  String isPrivate;
-  String description;
-  String identifier;
-  String startDate;
-  String endDate;
-  String ownerId;
-  String priorityDefault;
-  String priorityStart;
-  String priorityEnd;
-  String email;
-  String predefinedEmailSubjects;
-  String perSwimlaneTaskLimits;
-  String taskLimit;
-  String enableGlobalTags;
-  Url url;
+  String? id;
+  String? name;
+  String? isActive;
+  String? token;
+  String? lastModified;
+  String? isPublic;
+  String? isPrivate;
+  String? description;
+  String? identifier;
+  String? startDate;
+  String? endDate;
+  String? ownerId;
+  String? priorityDefault;
+  String? priorityStart;
+  String? priorityEnd;
+  String? email;
+  String? predefinedEmailSubjects;
+  String? perSwimlaneTaskLimits;
+  String? taskLimit;
+  String? enableGlobalTags;
+  Url? url;
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
         id: json["id"].toString(),
@@ -101,7 +101,7 @@ class ProjectModel {
         "per_swimlane_task_limits": perSwimlaneTaskLimits,
         "task_limit": taskLimit,
         "enable_global_tags": enableGlobalTags,
-        "url": url.toJson(),
+        "url": url!.toJson(),
       };
 }
 
@@ -112,9 +112,9 @@ class Url {
     this.calendar,
   });
 
-  String board;
-  String list;
-  String calendar;
+  String? board;
+  String? list;
+  String? calendar;
 
   factory Url.fromJson(Map<String, dynamic> json) => Url(
         board: json["board"],

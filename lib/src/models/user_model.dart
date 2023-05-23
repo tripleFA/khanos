@@ -36,30 +36,30 @@ class UserModel {
     this.filter,
   });
 
-  String id;
-  String username;
-  String password;
-  String isLdapUser;
-  String name;
-  String email;
-  String googleId;
-  String githubId;
-  String notificationsEnabled;
-  String timezone;
-  String language;
-  String disableLoginForm;
-  String twofactorActivated;
-  String twofactorSecret;
-  String token;
-  String notificationsFilter;
-  String nbFailedLogin;
-  String lockExpirationDate;
-  String gitlabId;
-  String role;
-  String isActive;
-  String avatarPath;
-  String apiAccessToken;
-  String filter;
+  String? id;
+  String? username;
+  String? password;
+  String? isLdapUser;
+  String? name;
+  String? email;
+  String? googleId;
+  String? githubId;
+  String? notificationsEnabled;
+  String? timezone;
+  String? language;
+  String? disableLoginForm;
+  String? twofactorActivated;
+  String? twofactorSecret;
+  String? token;
+  String? notificationsFilter;
+  String? nbFailedLogin;
+  String? lockExpirationDate;
+  String? gitlabId;
+  String? role;
+  String? isActive;
+  String? avatarPath;
+  String? apiAccessToken;
+  String? filter;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
