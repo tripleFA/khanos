@@ -200,7 +200,8 @@ class _TaskPageState extends State<TaskPage> {
                       (task!.creatorId != '0')
                           ? _userButton(projectUsers!
                               .firstWhere(
-                                  (element) => element.id == task!.creatorId)
+                                  (element) => element.id == task!.creatorId,
+                                  orElse: () => UserModel(id: '0', name: 'N/A'),)
                               .name!)
                           : Text('N/A'),
                     ]),
