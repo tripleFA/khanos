@@ -54,7 +54,7 @@ _showAboutInfo(BuildContext context) {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch('https://github.com/Jeoxs/khanos'); // Replace with your URL
+                            launch('https://github.com/Jeoxs/khanos'); 
                           },
                       ),
                     ],
@@ -62,7 +62,7 @@ _showAboutInfo(BuildContext context) {
                 ),
                 SizedBox(height: 15),
                 Text(
-                  'Version: 1.2.1',
+                  'Version: 1.2.2',
                   style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
