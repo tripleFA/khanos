@@ -268,7 +268,7 @@ class _TaskPageState extends State<TaskPage> {
                                   color: Colors.blueGrey),
                             ),
                             Text(
-                                'Modified: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task!.dateDue!)}'),
+                                'Due: ${getStringDateTimeFromEpoch("dd/MM/yy - HH:mm", task!.dateDue!)}'),
                           ])
                         : Container(),
                     Row(
